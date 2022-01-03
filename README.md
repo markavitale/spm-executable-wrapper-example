@@ -1,6 +1,6 @@
 # spm-executable-wrapper-example
 
-A sample repo showing a simple wrapper for building and running Swift Package Manager based executable targets from the command line. This is a companion repo to the article [Executing Swift Package Manager executables from the command line](www.markavitale.com/swift-package-executables), read that for more details.
+A sample repo showing a simple wrapper for building and running Swift Package Manager based executables from the command line. This is a companion repo to the article [Executing Swift Package Manager executables from the command line](www.markavitale.com/swift-package-executables), read that for more details.
 
 Usage:
 - Clone this repo on macOS and from a terminal run `source init.sh` from the root of this repo

@@ -5,7 +5,7 @@ PACKAGE_PATH="$MY_REPO_ROOT/tools/swift/ExampleExecutable"
 
 # Execute the build
 # Execute in a subshell to avoid success messages from polluting our command's STDOUT
-BUILD_STDOUT=$(swift build --configuration release --package-path "$PACKAGE_PATH")
+BUILD_STDOUT=$(swift build --configuration release --package-path "$PACKAGE_PATH" --product "ExampleExecutableTarget")
 BUILD_RESULT=$?
 
 if [[ $BUILD_RESULT -eq 0 ]]; then
