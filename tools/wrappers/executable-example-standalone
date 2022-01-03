@@ -1,0 +1,22 @@
+#! /bin/zsh
+
+# cd to the directory of our example executable so we can build and run the package
+PACKAGE_PATH="$MY_REPO_ROOT/tools/swift/ExampleExecutable"
+
+# Execute the build
+# Execute in a subshell to avoid success messages from polluting our command's STDOUT
+BUILD_STDOUT=$(swift build --configuration release --package-path "$PACKAGE_PATH")
+BUILD_RESULT=$?
+
+if [[ $BUILD_RESULT -eq 0 ]]; then
+    # The build succeeded. Let's now run the script, skipping the build since we've just built
+    swift run --configuration release --package-path "$PACKAGE_PATH" --skip-build "ExampleExecutableTarget" "$@"
+    
+    # Forward the script run's exit status
+    RUN_RESULT=$?
+    exit $RUN_RESULT
+else
+    # If we failed, print out the build failure STDOUT and forward the build's exist status
+    echo $BUILD_STDOUT
+    exit $BUILD_RESULT
+fi

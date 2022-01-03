@@ -1,0 +1,31 @@
+#! /bin/zsh
+
+# A simple runner for Swift Package Manager executables in this repo's tools/swift directory.
+# Call this with the first argument being the package name and the second argument being the executable target name.
+# All further arguments will be forwarded to the executable
+
+# Example: spm-runner ExampleExecutable ExampleExecutableTarget [arguments-for-executable]
+
+PACKAGE_NAME="$1"
+EXECUTABLE_TARGET_NAME="$2"
+
+# cd to the directory of our example executable so we can build and run the package
+PACKAGE_PATH="$MY_REPO_ROOT/tools/swift/$PACKAGE_NAME"
+
+# Execute the build
+# Execute in a subshell to avoid success messages from polluting our command's STDOUT
+BUILD_STDOUT=$(swift build --configuration release --package-path "$PACKAGE_PATH" --target "$EXECUTABLE_TARGET_NAME")
+BUILD_RESULT=$?
+
+if [[ $BUILD_RESULT -eq 0 ]]; then
+    # The build succeeded so run the script, skipping the build since we've just built, and forwarding on arguments meant for the executable
+    swift run --configuration release --package-path "$PACKAGE_PATH" --skip-build "$EXECUTABLE_TARGET_NAME" "${@:3}"
+    
+    # Forward the script run's exit status
+    RUN_RESULT=$?
+    exit $RUN_RESULT
+else
+    # If we failed, print out the build failure STDOUT and forward the build's exist status
+    echo $BUILD_STDOUT
+    exit $BUILD_RESULT
+fi

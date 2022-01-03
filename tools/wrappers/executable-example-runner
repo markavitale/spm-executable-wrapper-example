@@ -1,0 +1,3 @@
+#! /bin/zsh
+"$MY_REPO_ROOT/tools/wrappers/spm-runner" ExampleExecutable ExampleExecutableTarget "$@"
+exit $?
